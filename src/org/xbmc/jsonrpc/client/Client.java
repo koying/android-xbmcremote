@@ -217,6 +217,9 @@ public abstract class Client {
 			case SortType.DATE_ADDED:
 				sortby = "dateadded";
 				break;
+			case SortType.LASTPLAYED:
+				sortby = "lastplayed";
+				break;
 		}
 		
 		params.p(PARAM_SORT, obj().p("ignorearticle", true).p("method", sortby).p("order", order));

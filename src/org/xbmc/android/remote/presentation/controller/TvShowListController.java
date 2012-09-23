@@ -81,6 +81,8 @@ public class TvShowListController extends ListController implements IController 
 	public static final int MENU_SORT_BY_YEAR_DESC = 24;
 	public static final int MENU_SORT_BY_RATING_ASC = 25;
 	public static final int MENU_SORT_BY_RATING_DESC = 26;
+	public static final int MENU_SORT_BY_LASTPLAYED_ASC = 27;
+	public static final int MENU_SORT_BY_LASTPLAYED_DESC = 28;
 	
 	private Actor mActor;
 	private Genre mGenre;
@@ -240,6 +242,8 @@ public class TvShowListController extends ListController implements IController 
 		sortMenu.add(2, MENU_SORT_BY_YEAR_DESC, 0, "by Year descending");
 		sortMenu.add(2, MENU_SORT_BY_RATING_ASC, 0, "by Rating ascending");
 		sortMenu.add(2, MENU_SORT_BY_RATING_DESC, 0, "by Rating descending");
+		sortMenu.add(2, MENU_SORT_BY_LASTPLAYED_ASC, 0, "by Last Played ascending");
+		sortMenu.add(2, MENU_SORT_BY_LASTPLAYED_DESC, 0, "by Last Played descending");
 //		menu.add(0, MENU_SWITCH_VIEW, 0, "Switch view").setIcon(R.drawable.menu_view);
 		createShowHideWatchedToggle(menu);
 	}
@@ -288,6 +292,20 @@ public class TvShowListController extends ListController implements IController 
 		case MENU_SORT_BY_RATING_DESC:
 			ed = mActivity.getPreferences(Context.MODE_PRIVATE).edit();
 			ed.putInt(AbstractManager.PREF_SORT_BY_PREFIX + AbstractManager.PREF_SORT_KEY_SHOW, SortType.RATING);
+			ed.putString(AbstractManager.PREF_SORT_ORDER_PREFIX + AbstractManager.PREF_SORT_KEY_SHOW, SortType.ORDER_DESC);
+			ed.commit();
+			fetch();
+			break;
+		case MENU_SORT_BY_LASTPLAYED_ASC:
+			ed = mActivity.getPreferences(Context.MODE_PRIVATE).edit();
+			ed.putInt(AbstractManager.PREF_SORT_BY_PREFIX + AbstractManager.PREF_SORT_KEY_SHOW, SortType.LASTPLAYED);
+			ed.putString(AbstractManager.PREF_SORT_ORDER_PREFIX + AbstractManager.PREF_SORT_KEY_SHOW, SortType.ORDER_ASC);
+			ed.commit();
+			fetch();
+			break;
+		case MENU_SORT_BY_LASTPLAYED_DESC:
+			ed = mActivity.getPreferences(Context.MODE_PRIVATE).edit();
+			ed.putInt(AbstractManager.PREF_SORT_BY_PREFIX + AbstractManager.PREF_SORT_KEY_SHOW, SortType.LASTPLAYED);
 			ed.putString(AbstractManager.PREF_SORT_ORDER_PREFIX + AbstractManager.PREF_SORT_KEY_SHOW, SortType.ORDER_DESC);
 			ed.commit();
 			fetch();
