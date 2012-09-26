@@ -27,6 +27,7 @@ import org.xbmc.android.remote.R;
 import org.xbmc.android.remote.business.AbstractManager;
 import org.xbmc.android.remote.business.ManagerFactory;
 import org.xbmc.android.remote.presentation.activity.GridActivity;
+import org.xbmc.android.remote.presentation.activity.ListActivity;
 import org.xbmc.android.remote.presentation.activity.TvShowDetailsActivity;
 import org.xbmc.android.remote.presentation.widget.FiveLabelsItemView;
 import org.xbmc.android.remote.presentation.widget.FlexibleItemView;
@@ -37,6 +38,7 @@ import org.xbmc.api.business.ISortableManager;
 import org.xbmc.api.business.ITvShowManager;
 import org.xbmc.api.object.Actor;
 import org.xbmc.api.object.Genre;
+import org.xbmc.api.object.Season;
 import org.xbmc.api.object.TvShow;
 import org.xbmc.api.type.SortType;
 import org.xbmc.api.type.ThumbSize;
@@ -119,13 +121,27 @@ public class TvShowListController extends ListController implements IController 
 			setupIdleListener();
 			
 			mList.setOnItemClickListener(new OnItemClickListener() {
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 					if(isLoading()) return;
 					final TvShow show = (TvShow)mList.getAdapter().getItem(((FiveLabelsItemView)view).position);
-					Intent nextActivity = new Intent(view.getContext(), GridActivity.class);
-					nextActivity.putExtra(ListController.EXTRA_TVSHOW, show);
-					nextActivity.putExtra(ListController.EXTRA_LIST_CONTROLLER, new SeasonListController());
-					mActivity.startActivity(nextActivity);
+					DataResponse<ArrayList<Season>> response = new DataResponse<ArrayList<Season>>() {
+						public void run() {
+							if (value.size() > 1) {
+								Intent nextActivity = new Intent(view.getContext(), GridActivity.class);
+								nextActivity.putExtra(ListController.EXTRA_TVSHOW, show);
+								nextActivity.putExtra(ListController.EXTRA_LIST_CONTROLLER, new SeasonListController());
+								mActivity.startActivity(nextActivity);
+							} else if (value.size() == 1) {
+								final Season season = value.get(0);
+								Intent nextActivity = new Intent(view.getContext(), ListActivity.class);
+								nextActivity.putExtra(ListController.EXTRA_SEASON, season);
+								nextActivity.putExtra(ListController.EXTRA_LIST_CONTROLLER, new EpisodeListController());
+								mActivity.startActivity(nextActivity);
+							}
+						}
+					};
+					
+					mTvManager.getSeasons(response, show, mActivity.getApplicationContext());
 				}
 			});
 			mList.setOnKeyListener(new ListControllerOnKeyListener<TvShow>());

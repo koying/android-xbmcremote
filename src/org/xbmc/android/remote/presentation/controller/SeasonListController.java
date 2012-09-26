@@ -249,7 +249,7 @@ public class SeasonListController extends ListController implements IController 
 		fetch();
 	}
 
-	private class SeasonAdapter extends ArrayAdapter<Season> {
+	public class SeasonAdapter extends ArrayAdapter<Season> {
 		SeasonAdapter(Activity activity, ArrayList<Season> items) {
 			super(activity, 0, items);
 		}

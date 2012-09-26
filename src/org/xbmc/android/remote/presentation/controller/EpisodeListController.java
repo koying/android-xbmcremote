@@ -246,12 +246,12 @@ public class EpisodeListController extends ListController implements IController
 		SubMenu sortMenu = menu.addSubMenu(0, MENU_SORT, 0, "Sort").setIcon(R.drawable.menu_sort);
 		sortMenu.add(2, MENU_SORT_BY_EPISODE_ASC, 0, "by Episode ascending");
 		sortMenu.add(2, MENU_SORT_BY_EPISODE_DESC, 0, "by Episode descending");
+		sortMenu.add(2, MENU_SORT_BY_DATE_ADDED_ASC, 0, "by Date Added ascending");
+		sortMenu.add(2, MENU_SORT_BY_DATE_ADDED_DESC, 0, "by Date Added descending");
 		sortMenu.add(2, MENU_SORT_BY_TITLE_ASC, 0, "by Title ascending");
 		sortMenu.add(2, MENU_SORT_BY_TITLE_DESC, 0, "by Title descending");
 		sortMenu.add(2, MENU_SORT_BY_RATING_ASC, 0, "by Rating ascending");
 		sortMenu.add(2, MENU_SORT_BY_RATING_DESC, 0, "by Rating descending");
-		sortMenu.add(2, MENU_SORT_BY_DATE_ADDED_ASC, 0, "by Date Added ascending");
-		sortMenu.add(2, MENU_SORT_BY_DATE_ADDED_DESC, 0, "by Date Added descending");
 //		menu.add(0, MENU_SWITCH_VIEW, 0, "Switch view").setIcon(R.drawable.menu_view);
 		createShowHideWatchedToggle(menu);
 	}
